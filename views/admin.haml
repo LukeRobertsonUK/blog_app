@@ -1,11 +1,15 @@
 %p now inside the admin page
+%a{href:"/create"}
+  Post a New Blog
 - if @recent_posts
   %h2 Update / Delete
   %p Click a blog title to update.
   - @recent_posts.each do |blog|
     %ul
       %a{href:"/update/#{blog["id"]}"}
-        = blog['title']
+        Update:
+        = blog['title'] + " "
+      or
       %a{href:"/delete/#{blog["id"]}"}
         Delete
       %li

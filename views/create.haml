@@ -1,0 +1,12 @@
+%h2 New Blog
+
+%form{action:"/new", method:"post"}
+  %h3 Title:
+  %input{type:"text", name:"title" }
+  %h3 Author:
+  %input{type:"text", name:"author" }
+  %h3 Tags (tag1 tag2 tag3):
+  %input{type:"text", name:"tags" }
+  %h3 Content:
+  %textarea{type: "text", name:"content"}
+  %input{type:"submit"}

@@ -1,0 +1,14 @@
+%h2 Blog Update
+
+%form{action:"/update/#{@blog["id"]}", method:"post"}
+  %h3 Title:
+  %input{type:"text", name:"title", value:"#{@blog["title"]}" }
+  %h3 Author:
+  %input{type:"text", name:"author", value:"#{@blog["author"]}" }
+  %h3 Tags (tag1 tag2 tag3):
+  %input{type:"text", name:"tags", value:"#{@blog["tags"]}" }
+  %h3 Content:
+  %textarea{type: "text", name:"content"}
+    #{@blog["content"]}
+  %input{type:"hidden", name:"blog_id", value:"#{@blog["id"]}" }
+  %input{type:"submit"}
