@@ -1,0 +1,20 @@
+%p now inside the list page
+- if @recent_posts
+  %h2 All Posts
+  - @recent_posts.each do |blog|
+    %ul
+      %a{href:"/display/#{blog["id"]}"}
+        = blog['title']
+      %li
+        Posting Date & Time:
+        = blog['post_time'].to_s.slice(0, 19)
+      %li
+        Tags:
+        = blog['tags'].split(" ").join(" / ")
+      %li
+        = blog['content'].slice(0, 100) + "..."
+      %li
+        Author:
+        = blog['author']
+- else
+  %h2 There are no posts at this time.
