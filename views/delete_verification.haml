@@ -1,0 +1,21 @@
+%h2 Confirm Delete
+
+%form{action:"/delete_verification/#{@blog_to_delete["id"]}", method:"post"}
+  %p Enter password to verify the deletion:
+  %input{type:"text", name:"password" }
+  %input{type:"submit"}
+
+  %h2
+  = @blog_to_delete['title']
+%ul
+  %li
+    Posting Date & Time:
+    = @blog_to_delete['post_time'].to_s.slice(0, 19)
+  %li
+    Tags:
+    = @blog_to_delete['tags'].split(" ").join(" / ")
+  %li
+    = @blog_to_delete['content']
+  %li
+    Author:
+    = @blog_to_delete['author']

@@ -4,6 +4,9 @@ require 'pry'
 require 'pg'
 require 'haml'
 
+username = 'luke'
+password = 'insane'
+
 before do
   @db ||= PG.connect(dbname: "blog_app")
 end
@@ -43,10 +46,7 @@ end
 
 # admin functions
 
-
-
 get "/admin" do
-  binding.pry
   unless session[:admin] == true
     redirect "/verification"
   end
@@ -60,8 +60,7 @@ get "/verification" do
 end
 
 post "/verification" do
-  binding.pry
-  if params["login"].to_s == "robertsonlz" && params["password"].to_s == "insane"
+  if params["username"].to_s == username && params["password"].to_s == password
       session[:admin] = true
       redirect "/admin"
     else
@@ -69,11 +68,32 @@ post "/verification" do
     end
 end
 
-get "/delete/:id" do
+
+
+post "/delete_verification/:id" do
+ if params["password"].to_s == password
   sql = "DELETE FROM blogs WHERE id= '#{params[:id]}'"
   @db.exec(sql)
   redirect to '/admin'
+else
+  redirect to '/delete_verification/#{params[:id]}'
 end
+end
+
+get "/delete_verification/:id" do
+  sql = "SELECT * FROM blogs WHERE id = '#{params[:id]}'"
+  @blog_to_delete = @db.exec(sql).first
+  haml :delete_verification
+end
+
+
+
+get "/delete/:id" do
+  sql = "SELECT * FROM blogs WHERE id = '#{params[:id]}'"
+  @blog_to_delete = @db.exec(sql).first
+  haml :delete_verification
+end
+
 
 get "/create" do
    haml :create
@@ -84,9 +104,9 @@ post "/new" do
   @author = params[:author].to_s
   @tags = params[:tags].to_s
   @content = params[:content].to_s
-  sql = "INSERT INTO blogs (title, author, tags, content) VALUES ('#{@title}', '#{@author}', '#{@tags}', '#{@content}')"
+  sql = "INSERT INTO blogs (title, post_time, author, tags, content) VALUES ('#{@title}', CURRENT_TIMESTAMP, '#{@author}', '#{@tags}', '#{@content}')"
   @db.exec(sql)
-  redirect to '/'
+  redirect to '/admin'
 end
 
 get "/update/:id" do
