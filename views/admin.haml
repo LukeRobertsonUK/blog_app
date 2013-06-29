@@ -1,0 +1,23 @@
+%p now inside the admin page
+- if @recent_posts
+  %h2 Update / Delete
+  %p Click a blog title to update.
+  - @recent_posts.each do |blog|
+    %ul
+      %a{href:"/update/#{blog["id"]}"}
+        = blog['title']
+      %a{href:"/delete/#{blog["id"]}"}
+        Delete
+      %li
+        Posting Date & Time:
+        = blog['post_time'].to_s.slice(0, 19)
+      %li
+        Tags:
+        = blog['tags'].split(" ").join(" / ")
+      %li
+        = blog['content'].slice(0, 100) + "..."
+      %li
+        Author:
+        = blog['author']
+- else
+  %h2 There are no posts at this time.

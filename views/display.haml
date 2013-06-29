@@ -1,0 +1,14 @@
+%h2
+  = @blog['title']
+%ul
+  %li
+    Posting Date & Time:
+    = @blog['post_time'].to_s.slice(0, 19)
+  %li
+    Tags:
+    = @blog['tags'].split(" ").join(" / ")
+  %li
+    = @blog['content']
+  %li
+    Author:
+    = @blog['author']
