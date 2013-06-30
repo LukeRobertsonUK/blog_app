@@ -31,7 +31,12 @@ end
 
 #List Posts
 get '/list' do
-  sql = "SELECT * FROM blogs ORDER BY post_time DESC"
+
+  if params[:tag]
+    sql = "SELECT * FROM blogs WHERE tags LIKE '%#{params[:tag]}%' ORDER BY post_time DESC"
+  else
+    sql = "SELECT * FROM blogs ORDER BY post_time DESC"
+  end
   @recent_posts = @db.exec(sql)
   haml :list
 end
@@ -76,7 +81,8 @@ post "/delete_verification/:id" do
   @db.exec(sql)
   redirect to '/admin'
 else
-  redirect to '/delete_verification/#{params[:id]}'
+  target = "/delete_verification/#{params[:id]}"
+  redirect to target
 end
 end
 
