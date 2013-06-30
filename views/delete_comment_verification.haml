@@ -1,0 +1,6 @@
+%h2 Confirm Delete
+
+%form{action:"/delete_comment_verification/#{@comment_to_delete["id"]}", method:"post"}
+  %p Enter password to verify the deletion:
+  %input{type:"text", name:"password" }
+  %input{type:"submit"}

@@ -12,3 +12,18 @@
     #{@blog["content"]}
   %input{type:"hidden", name:"blog_id", value:"#{@blog["id"]}" }
   %input{type:"submit"}
+
+%p Comments:
+- @comments.each do |comment|
+  %ul
+    %li
+      Comment Date & Time:
+      = comment['post_time'].to_s.slice(0, 19)
+    %li
+      = comment['content']
+    %li
+      Author:
+      = comment['author']
+    %li
+      %a{href:"/delete_comment/#{comment["id"]}"}
+        Delete

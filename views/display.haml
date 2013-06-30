@@ -12,3 +12,25 @@
   %li
     Author:
     = @blog['author']
+
+%p Submit comment:
+%form{action:"/comment", method:"post"}
+  %p Author:
+  %input{type:"text", name:"author" }
+  %h3 Comment:
+  %textarea{type: "text", name:"content"}
+  %input{type: "hidden", name:"blog_id", value:"#{@blog['id']}"}
+  %input{type:"submit"}
+
+%p Previous comments:
+
+- @comments.each do |comment|
+  %ul
+    %li
+      Comment Date & Time:
+      = comment['post_time'].to_s.slice(0, 19)
+    %li
+      = comment['content']
+    %li
+      Author:
+      = comment['author']
