@@ -1,19 +1,34 @@
 !!! 5
 %html
   %head
-    %title Luke Robertson's Blog
-    %link{:href => "css/bootstrap.css", :rel => "stylesheet"}/
-    %link{:href => "css/main.css", :rel => "stylesheet"}/
+    %title Luke Robertson&rsquo;s Blog
+    %link{:href => "http://fonts.googleapis.com/css?family=Permanent+Marker", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "http://fonts.googleapis.com/css?family=Iceland", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "http://fonts.googleapis.com/css?family=Archivo+Black", :rel => "stylesheet", :type => "text/css"}/
+    %link{:href => "/css/bootstrap.css", :rel => "stylesheet"}/
+    %link{:href => "/css/main.css", :rel => "stylesheet"}/
   %body
-    %h1 Luke Robertson's Blog
+    %h1 Luke Robertson&rsquo;s Blog
     #container
-      %nav
-        %ul
-          %li
-            %a{href:"/list"}Archive
-            %a{href:"/admin"}Admin
-            %a{href:"/"}Home
-
-
-      %h2 container starts here
-      = yield
+      .row
+        .span8
+          %div
+            %ul.nav.nav-pills
+              %li.active
+                %a{href:"/"}Home
+              %li
+                %a{href:"/list"}Archive
+              %li
+                %a{href:"/admin"}Admin
+          = yield
+        .span4
+          .sidebar
+            %img.img-polaroid{:src => "/img/photo.jpg"}
+            .social
+              %a{href: "http://www.facebook.com"}
+                %img{:src => "/img/social-facebook.png", alt: "facebook logo"}
+              %a{href: "http://www.twitter.com"}
+                %img{:src => "/img/social-twitter.png", alt: "twitter logo"}
+              %a{href: "http://www.flickr.com"}
+                %img{:src => "/img/social-flickr.png", alt:"flickr logo"}
+            %p Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.

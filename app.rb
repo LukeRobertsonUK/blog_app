@@ -1,8 +1,7 @@
-require 'sinatra'
-require 'sinatra/contrib/all'
-require 'pry'
 require 'pg'
 require 'haml'
+require 'sinatra'
+require 'sinatra/reloader'
 
 username = 'luke'
 password = 'insane'
@@ -16,12 +15,10 @@ after do
 end
 
 configure do
-# server configuration
   enable :sessions
-# allows cookies
+  enable :reload_templates
   set :environment, "development"
 end
-
 
 get '/' do
   sql = "SELECT * FROM blogs ORDER BY post_time DESC limit 5"
@@ -29,9 +26,7 @@ get '/' do
   haml :index
 end
 
-#List Posts
 get '/list' do
-
   if params[:tag]
     sql = "SELECT * FROM blogs WHERE tags LIKE '%#{params[:tag]}%' ORDER BY post_time DESC"
   else
@@ -41,8 +36,6 @@ get '/list' do
   haml :list
 end
 
-
-# display a post in detail
 get '/display/:id' do
   sql = "SELECT * FROM blogs WHERE id = '#{params[:id]}'"
   @blog = @db.exec(sql).first
@@ -50,8 +43,6 @@ get '/display/:id' do
   @comments = @db.exec(sql_comments)
   haml :display
 end
-
-# admin functions
 
 get "/admin" do
   unless session[:admin] == true
@@ -75,8 +66,6 @@ post "/verification" do
     end
 end
 
-
-
 post "/delete_verification/:id" do
  if params["password"].to_s == password
   sql = "DELETE FROM blogs WHERE id= '#{params[:id]}'"
@@ -96,14 +85,11 @@ get "/delete_verification/:id" do
   haml :delete_verification
 end
 
-
-
 get "/delete/:id" do
   sql = "SELECT * FROM blogs WHERE id = '#{params[:id]}'"
   @blog_to_delete = @db.exec(sql).first
   haml :delete_verification
 end
-
 
 get "/create" do
    haml :create
@@ -138,9 +124,7 @@ post "/update/:id" do
   redirect to '/admin'
 end
 
-
 post "/comment" do
-
   @author = params[:author].to_s
   @content = params[:content].to_s
   @blog_id = params[:blog_id]
@@ -155,25 +139,16 @@ get "/delete_comment/:id" do
   haml :delete_comment_verification
 end
 
-get "/delete_comment_verification/:id" do
-  sql = "SELECT * FROM comments WHERE id = '#{params[:id]}'"
-  @comment_to_delete = @db.exec(sql).first
-  haml :delete_comment_verification
-end
-
-
 post "/delete_comment_verification/:id" do
- if params["password"].to_s == password
-  sql = "DELETE FROM comments WHERE id= #{params[:id]}"
-  sql_blog = "SELECT * FROM comments WHERE id= #{params[:id]}"
-  @comment = @db.exec(sql_blog).first
-  @db.exec(sql)
-  redirect to "/update/#{@comment["blog_id"].to_i}"
-else
-  target = "/delete_comment_verification/#{params[:id]}"
-  redirect to target
+  if params["password"].to_s == password
+    sql = "DELETE FROM comments WHERE id= #{params[:id]}"
+    sql_blog = "SELECT * FROM comments WHERE id= #{params[:id]}"
+    @comment = @db.exec(sql_blog).first
+    @db.exec(sql)
+    redirect to "/update/#{@comment["blog_id"].to_i}"
+  else
+    target = "/delete_comment_verification/#{params[:id]}"
+    redirect to target
+  end
 end
-end
-
-
 

@@ -1,19 +1,21 @@
-%p now inside the index page
+%h2 About the Author
+%p.about Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
 
-- if @recent_posts
+- if @recent_posts.any?
   %h2 Previous five posts
   - @recent_posts.each do |blog|
     %ul
       %a{href:"/display/#{blog["id"]}"}
         = blog['title']
-      %li
-        Posting Date & Time:
+      %li.post
+        .heading Date & Time:
         = blog['post_time'].to_s.slice(0, 19)
       %li
-        Tags:
+        .heading Extract:
+        .extract
+          = blog['content'].slice(0, 100) + "..."
+      %li.post
+        .heading Tags:
         = blog['tags'].split(" ").join(" / ")
-      %li
-        = blog['content'].slice(0, 100) + "..."
-      %li
-        Author:
-        = blog['author']
+- else
+  %h2 There are no posts available at this time

@@ -1,27 +1,21 @@
-%p now inside the admin page
-%a{href:"/create"}
+%a.btn.btn-primary.btn-large{href:"/create"}
   Post a New Blog
-- if @recent_posts
+- if @recent_posts.any?
   %h2 Update / Delete
-  %p Click a blog title to update.
   - @recent_posts.each do |blog|
     %ul
       %a{href:"/update/#{blog["id"]}"}
         Update:
         = blog['title'] + " "
-      or
-      %a{href:"/delete/#{blog["id"]}"}
-        Delete
-      %li
-        Posting Date & Time:
+      %li.post
+        .heading Posting Date & Time:
         = blog['post_time'].to_s.slice(0, 19)
-      %li
-        Tags:
-        = blog['tags'].split(" ").join(" / ")
-      %li
+      %li.extract
         = blog['content'].slice(0, 100) + "..."
-      %li
-        Author:
-        = blog['author']
+      %li.post
+        .heading Tags:
+        = blog['tags'].split(" ").join(" / ")
+      %a.delete{href:"/delete/#{blog["id"]}"}
+        %p Delete
 - else
   %h2 There are no posts at this time.

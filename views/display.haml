@@ -1,36 +1,36 @@
 %h2
   = @blog['title']
-%ul
-  %li
-    Posting Date & Time:
-    = @blog['post_time'].to_s.slice(0, 19)
-  %li
-    Tags:
-    = @blog['tags'].split(" ").join(" / ")
-  %li
-    = @blog['content']
-  %li
-    Author:
-    = @blog['author']
+%h3
+  Posting Date & Time:
+  = @blog['post_time'].to_s.slice(0, 19)
+%h3
+  Tags:
+  = @blog['tags'].split(" ").join(" / ")
+%p.content
+  = @blog['content']
 
-%p Submit comment:
+
+%h3.filter Submit comment:
 %form{action:"/comment", method:"post"}
-  %p Author:
+  %h3 Author:
   %input{type:"text", name:"author" }
   %h3 Comment:
-  %textarea{type: "text", name:"content"}
-  %input{type: "hidden", name:"blog_id", value:"#{@blog['id']}"}
-  %input{type:"submit"}
+  .user_comment
+    %textarea{type: "text", name:"content"}
+    %input{type: "hidden", name:"blog_id", value:"#{@blog['id']}"}
+    %input{type:"submit"}
 
-%p Previous comments:
-
-- @comments.each do |comment|
-  %ul
-    %li
-      Comment Date & Time:
-      = comment['post_time'].to_s.slice(0, 19)
-    %li
-      = comment['content']
-    %li
-      Author:
-      = comment['author']
+- if @comments.any?
+  %h3 Previous Comments
+  - @comments.each do |comment|
+    %ul
+      %li
+        .heading Date & Time:
+        = comment['post_time'].to_s.slice(0, 19)
+      %li.extract
+        = comment['content']
+      %li
+        .heading Author:
+        = comment['author']
+- else
+  %h3 There are no comments at this time

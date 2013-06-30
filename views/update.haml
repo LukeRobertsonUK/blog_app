@@ -13,17 +13,17 @@
   %input{type:"hidden", name:"blog_id", value:"#{@blog["id"]}" }
   %input{type:"submit"}
 
-%p Comments:
-- @comments.each do |comment|
-  %ul
-    %li
-      Comment Date & Time:
-      = comment['post_time'].to_s.slice(0, 19)
-    %li
-      = comment['content']
-    %li
-      Author:
-      = comment['author']
-    %li
-      %a{href:"/delete_comment/#{comment["id"]}"}
-        Delete
+- if @comments.any?
+  %h3 Comments:
+  - @comments.each do |comment|
+    %ul
+      %li
+        .heading Date & Time:
+        = comment['post_time'].to_s.slice(0, 19)
+      %li.extract
+        = comment['content']
+      %li
+        .heading Author:
+        = comment['author']
+      %a.delete{href:"/delete_comment/#{comment["id"]}"}
+        %p Delete

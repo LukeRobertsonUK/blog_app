@@ -1,25 +1,23 @@
-%p now inside the list page
-- if @recent_posts
+%p.about A list of all historic posts is below, or use the box provided to filter the list by tag. Click on the blog title to access the full text and please feel free to add comments.
+- if @recent_posts.any?
   %form{action:'/list', method:"get"}
-    %p Filter by tag:
-    %input{type: "text", name: "tag"}
+    %h3.filter Tag Filter:
+    %input.filter{type: "text", name: "tag"}
 
-
-  %h2 Posts
+  %h2 Historic Posts
   - @recent_posts.each do |blog|
     %ul
       %a{href:"/display/#{blog["id"]}"}
         = blog['title']
-      %li
-        Posting Date & Time:
+      %li.post
+        .heading Date & Time:
         = blog['post_time'].to_s.slice(0, 19)
       %li
-        Tags:
+        .heading Extract:
+        .extract
+          = blog['content'].slice(0, 100) + "..."
+      %li.post
+        .heading Tags:
         = blog['tags'].split(" ").join(" / ")
-      %li
-        = blog['content'].slice(0, 100) + "..."
-      %li
-        Author:
-        = blog['author']
 - else
-  %h2 There are no posts at this time.
+  %h2 There are no posts available at this time
