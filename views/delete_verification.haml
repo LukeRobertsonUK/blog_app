@@ -2,7 +2,7 @@
 
 %form{action:"/delete_verification/#{@blog_to_delete["id"]}", method:"post"}
   %h3 Enter password to verify the deletion:
-  %input{type:"text", name:"password" }
+  %input{type:"password", name:"password" }
   %input{type:"submit"}
 
 %h2
